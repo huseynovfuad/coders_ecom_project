@@ -13,7 +13,7 @@ from services.choices import PRODUCT_STATUS
 
 class Category(DateMixin, SlugMixin, MPTTModel):
     name = models.CharField(max_length=300)
-    icon = models.ImageField(upload_to=Uploader.upload_logo_category)
+    icon = models.ImageField(upload_to=Uploader.upload_logo_category, blank=True, null=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
