@@ -111,425 +111,93 @@
                     </div>
 
                     <div class="top-filter-category" id="collapseExample">
-                        <div class="row g-sm-4 g-3">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="category-title">
-                                    <h3>Pack Size</h3>
+                        <form method="GET">
+                            <div class="row g-sm-4 g-3">
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="category-title">
+                                        <h3>Pack Size</h3>
+                                    </div>
+                                    <ul class="category-list custom-padding custom-height">
+                                        {% for category in categories %}
+                                        <li>
+                                            <div class="form-check ps-0 m-0 category-list-box">
+                                                <input class="checkbox_animated" type="checkbox" id="fruit" name="category" value="{{category.id}}">
+                                                <label class="form-check-label" for="fruit">
+                                                    <span class="name">{{ category.name }}</span>
+                                                    <span class="number">({{category.product_count}})</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
-                                <ul class="category-list custom-padding custom-height">
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="fruit">
-                                            <label class="form-check-label" for="fruit">
-                                                <span class="name">Fruits & Vegetables</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="cake">
-                                            <label class="form-check-label" for="cake">
-                                                <span class="name">Bakery, Cake & Dairy</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="behe">
-                                            <label class="form-check-label" for="behe">
-                                                <span class="name">Beverages</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="snacks">
-                                            <label class="form-check-label" for="snacks">
-                                                <span class="name">Snacks & Branded Foods</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="beauty">
-                                            <label class="form-check-label" for="beauty">
-                                                <span class="name">Beauty & Household</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="pets">
-                                            <label class="form-check-label" for="pets">
-                                                <span class="name">Kitchen, Garden & Pets</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="egg">
-                                            <label class="form-check-label" for="egg">
-                                                <span class="name">Eggs, Meat & Fish</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="food">
-                                            <label class="form-check-label" for="food">
-                                                <span class="name">Gourment & World Food</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="care">
-                                            <label class="form-check-label" for="care">
-                                                <span class="name">Baby Care</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="fish">
-                                            <label class="form-check-label" for="fish">
-                                                <span class="name">Fish & Seafood</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="marinades">
-                                            <label class="form-check-label" for="marinades">
-                                                <span class="name">Marinades</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="lamb">
-                                            <label class="form-check-label" for="lamb">
-                                                <span class="name">Mutton & Lamb</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="other">
-                                            <label class="form-check-label" for="other">
-                                                <span class="name">Port & other Meats</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="pour">
-                                            <label class="form-check-label" for="pour">
-                                                <span class="name">Pourltry</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="salami">
-                                            <label class="form-check-label" for="salami">
-                                                <span class="name">Sausages, bacon & Salami</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
 
-                            <div class="col-xl-3 col-md-6">
-                                <div class="category-title">
-                                    <h3>Price</h3>
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="category-title">
+                                        <h3>Price</h3>
+                                    </div>
+                                    <div class="range-slider">
+                                        <input type="text" class="js-range-slider" value="" name="price">
+                                    </div>
                                 </div>
-                                <div class="range-slider">
-                                    <input type="text" class="js-range-slider" value="">
+
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="category-title">
+                                        <h3>Discount</h3>
+                                    </div>
+                                    <ul class="category-list">
+                                        <li>
+                                            <div class="form-check ps-0 m-0 category-list-box">
+                                                <input class="checkbox_animated" type="checkbox" id="flexCheckDefault" name="discount" value="1">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    <span class="name">upto 5%</span>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="form-check ps-0 m-0 category-list-box">
+                                                <input class="checkbox_animated" type="checkbox" id="flexCheckDefault1" name="discount" value="2">
+                                                <label class="form-check-label" for="flexCheckDefault1">
+                                                    <span class="name">5% - 10%</span>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="form-check ps-0 m-0 category-list-box">
+                                                <input class="checkbox_animated" type="checkbox" id="flexCheckDefault2" name="discount" value="3">
+                                                <label class="form-check-label" for="flexCheckDefault2">
+                                                    <span class="name">10% - 15%</span>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="form-check ps-0 m-0 category-list-box">
+                                                <input class="checkbox_animated" type="checkbox" id="flexCheckDefault3" name="discount" value="4">
+                                                <label class="form-check-label" for="flexCheckDefault3">
+                                                    <span class="name">15% - 25%</span>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="form-check ps-0 m-0 category-list-box">
+                                                <input class="checkbox_animated" type="checkbox" id="flexCheckDefault4" name="discount" value="5">
+                                                <label class="form-check-label" for="flexCheckDefault4">
+                                                    <span class="name">More than 25%</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-xl-3 col-md-6">
+                                    <button type="submit" class="btn btn-success">Search</button>
                                 </div>
                             </div>
-
-                            <div class="col-xl-3 col-md-6">
-                                <div class="category-title">
-                                    <h3>Discount</h3>
-                                </div>
-                                <ul class="category-list">
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                <span class="name">upto 5%</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault1">
-                                            <label class="form-check-label" for="flexCheckDefault1">
-                                                <span class="name">5% - 10%</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault2">
-                                            <label class="form-check-label" for="flexCheckDefault2">
-                                                <span class="name">10% - 15%</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault3">
-                                            <label class="form-check-label" for="flexCheckDefault3">
-                                                <span class="name">15% - 25%</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault4">
-                                            <label class="form-check-label" for="flexCheckDefault4">
-                                                <span class="name">More than 25%</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="col-xl-3 col-md-6">
-                                <div class="category-title">
-                                    <h3>Category</h3>
-                                </div>
-                                <ul class="category-list custom-padding custom-height">
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault5">
-                                            <label class="form-check-label" for="flexCheckDefault5">
-                                                <span class="name">400 to 500 g</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault6">
-                                            <label class="form-check-label" for="flexCheckDefault6">
-                                                <span class="name">500 to 700 g</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault7">
-                                            <label class="form-check-label" for="flexCheckDefault7">
-                                                <span class="name">700 to 1 kg</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault8">
-                                            <label class="form-check-label" for="flexCheckDefault8">
-                                                <span class="name">120 - 150 g each Vacuum 2 pcs</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault9">
-                                            <label class="form-check-label" for="flexCheckDefault9">
-                                                <span class="name">1 pc</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault10">
-                                            <label class="form-check-label" for="flexCheckDefault10">
-                                                <span class="name">1 to 1.2 kg</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault11">
-                                            <label class="form-check-label" for="flexCheckDefault11">
-                                                <span class="name">2 x 24 pcs Multipack</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault12">
-                                            <label class="form-check-label" for="flexCheckDefault12">
-                                                <span class="name">2x6 pcs Multipack</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault13">
-                                            <label class="form-check-label" for="flexCheckDefault13">
-                                                <span class="name">4x6 pcs Multipack</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault14">
-                                            <label class="form-check-label" for="flexCheckDefault14">
-                                                <span class="name">5x6 pcs Multipack</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault15">
-                                            <label class="form-check-label" for="flexCheckDefault15">
-                                                <span class="name">Combo 2 Items</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault16">
-                                            <label class="form-check-label" for="flexCheckDefault16">
-                                                <span class="name">Combo 3 Items</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault17">
-                                            <label class="form-check-label" for="flexCheckDefault17">
-                                                <span class="name">2 pcs</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault18">
-                                            <label class="form-check-label" for="flexCheckDefault18">
-                                                <span class="name">3 pcs</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault19">
-                                            <label class="form-check-label" for="flexCheckDefault19">
-                                                <span class="name">2 pcs Vacuum (140 g to 180 g each
-                                                    )</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault20">
-                                            <label class="form-check-label" for="flexCheckDefault20">
-                                                <span class="name">4 pcs</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault21">
-                                            <label class="form-check-label" for="flexCheckDefault21">
-                                                <span class="name">4 pcs Vacuum (140 g to 180 g each
-                                                    )</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault22">
-                                            <label class="form-check-label" for="flexCheckDefault22">
-                                                <span class="name">6 pcs</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault23">
-                                            <label class="form-check-label" for="flexCheckDefault23">
-                                                <span class="name">6 pcs carton</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="form-check ps-0 m-0 category-list-box">
-                                            <input class="checkbox_animated" type="checkbox" id="flexCheckDefault24">
-                                            <label class="form-check-label" for="flexCheckDefault24">
-                                                <span class="name">6 pcs Pouch</span>
-                                                <span class="number">(15)</span>
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        </form>
                     </div>
 
                     <div

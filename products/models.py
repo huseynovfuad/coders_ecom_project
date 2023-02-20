@@ -7,6 +7,7 @@ from services.uploader import Uploader
 from accounts.models import Company
 from ckeditor.fields import RichTextField
 from services.choices import PRODUCT_STATUS
+from django.db.models import Q
 
 # Create your models here.
 
@@ -30,6 +31,14 @@ class Category(DateMixin, SlugMixin, MPTTModel):
         )
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
+
+
+    @property
+    def product_count(self):
+        return Product.objects.filter(
+            Q(category_id=self.id)|Q(category__parent_id=self.id)|
+            Q(category__parent__parent_id=self.id)
+        ).count()
 
 
 
