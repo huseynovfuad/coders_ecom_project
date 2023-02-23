@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from .models import Category, Product
 from django.db.models import Case, When, FloatField, F, Q, Count, Value, CharField
