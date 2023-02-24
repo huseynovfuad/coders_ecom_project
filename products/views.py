@@ -31,7 +31,6 @@ def index_view(request):
     category = request.GET.getlist("category", None)
     if category:
         filter_dict["category"]="".join(f'category={cat}&' for cat in category)
-        print(filter_dict)
         filter_.add(Q(category__parent__parent_id__in=category), Q.AND)
         # products = products.filter(
         #     category__parent__parent_id__in=category
@@ -71,9 +70,14 @@ def index_view(request):
     product_list = paginator.get_page(page)
 
     context = {
-        "categories": Category.objects.filter(parent__isnull=True).order_by("-created_at"),
         "products": product_list,
         "paginator": paginator,
         "filter_dict": filter_dict.values()
     }
     return render(request, "products/index.html", context)
+
+
+
+def product_create_view(request):
+    context = {}
+    return render(request, "products/create.html", context)

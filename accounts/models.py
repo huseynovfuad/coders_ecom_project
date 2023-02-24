@@ -12,6 +12,14 @@ from services.slugify import slugify
 User = get_user_model()
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = RichTextField(blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
 
 class Company(DateMixin, SlugMixin):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
