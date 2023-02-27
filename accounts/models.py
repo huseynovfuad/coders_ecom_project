@@ -16,6 +16,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = RichTextField(blank=True, null=True)
     age = models.PositiveIntegerField(blank=True, null=True)
+    activation_code = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
