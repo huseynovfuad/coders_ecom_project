@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company
+from .models import Company, Profile
 
 # Register your models here.
 
@@ -9,3 +9,4 @@ class CompanyAdmin(admin.ModelAdmin):
     search_fields = ("name", "code")
 
 admin.site.register(Company, CompanyAdmin)
+admin.site.register(Profile)

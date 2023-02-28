@@ -17,9 +17,16 @@ class Profile(models.Model):
     bio = RichTextField(blank=True, null=True)
     age = models.PositiveIntegerField(blank=True, null=True)
     activation_code = models.CharField(max_length=200, blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        self.slug = CodeGenerator.create_slug_shortcode_profile(
+            size=20, model_=Profile
+        )
+        return super().save(*args, **kwargs)
 
 
 class Company(DateMixin, SlugMixin):

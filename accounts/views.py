@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from services.generator import CodeGenerator
 from django.conf import settings
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -35,6 +36,7 @@ def logout_view(request):
 
 
 def register_view(request):
+    print(request.user)
     form = RegisterForm()
 
     if request.method == "POST":
@@ -46,15 +48,21 @@ def register_view(request):
             password = form.cleaned_data.get("password")
             new_user.set_password(password)
             new_user.save()
+            # profile = Profile.objects.create(
+            #     user=new_user,
+            #     activation_code=CodeGenerator.create_activation_link_code(
+            #         size=30, model_=Profile
+            #     )
+            # )
             profile = Profile.objects.create(
                 user=new_user,
                 activation_code=CodeGenerator.create_activation_link_code(
-                    size=30, model_=Profile
+                    size=4, model_=Profile
                 )
             )
-            link = request.build_absolute_uri(f'/accounts/activate/account/{profile.activation_code}/')
+            # link = request.build_absolute_uri(f'/accounts/activate/account/{profile.activation_code}/')
 
-            message = f"Please click the link below: \n{link}"
+            message = f"Please write code below: \n{profile.activation_code}"
 
             # sending mail
             send_mail(
@@ -65,7 +73,7 @@ def register_view(request):
                 fail_silently=False,
             )
 
-            return redirect("/accounts/login/")
+            return redirect(reverse_lazy("accounts:activate", kwargs={"slug": profile.slug}))
 
     context = {
         "form": form
@@ -77,6 +85,26 @@ def register_view(request):
 def activate_account_view(request, activation_code):
     profile = get_object_or_404(Profile, activation_code=activation_code)
     profile.user.is_active = True
+    profile.activation_code = None
     profile.user.save()
+    profile.save()
     login(request, profile.user)
     return redirect('/')
+
+
+
+
+def activate_account_code_view(request, slug):
+    profile = get_object_or_404(Profile, slug=slug)
+
+    if request.method == "POST":
+        code = request.POST.get("code")
+
+        if code == profile.activation_code:
+            profile.user.is_active = True
+            profile.activation_code = None
+            profile.user.save()
+            profile.save()
+            login(request, profile.user)
+            return redirect('/')
+    return render(request, "accounts/activate.html", {})
