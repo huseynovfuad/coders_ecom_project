@@ -81,20 +81,13 @@
                     <div class="log-in-box">
                         <div class="log-in-title">
                             <h3>Welcome To Fastkart</h3>
+                            {{ form.errors }}
                             <h4>Create Your Account</h4>
                         </div>
 
                         <div class="input-box">
                             <form class="row g-4" method="POST">
                                 {% csrf_token %}
-                                <div class="col-12">
-                                    <div class="form-floating theme-form-floating log-in-form">
-<!--                                        <input type="email" class="form-control" id="email" placeholder="Email Address">-->
-<!--                                        <label for="email">Email Address</label>-->
-                                        {{ form.username.label }}
-                                        {{ form.username }}
-                                    </div>
-                                </div>
                                 <div class="col-12">
                                     <div class="form-floating theme-form-floating log-in-form">
 <!--                                        <input type="email" class="form-control" id="email" placeholder="Email Address">-->
@@ -107,24 +100,16 @@
                                     <div class="form-floating theme-form-floating log-in-form">
 <!--                                        <input type="email" class="form-control" id="email" placeholder="Email Address">-->
 <!--                                        <label for="email">Email Address</label>-->
-                                        {{ form.first_name.label }}
-                                        {{ form.first_name }}
+                                        {{ form.full_name.label }}
+                                        {{ form.full_name }}
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating theme-form-floating log-in-form">
 <!--                                        <input type="email" class="form-control" id="email" placeholder="Email Address">-->
 <!--                                        <label for="email">Email Address</label>-->
-                                        {{ form.last_name.label }}
-                                        {{ form.last_name }}
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating theme-form-floating log-in-form">
-<!--                                        <input type="email" class="form-control" id="email" placeholder="Email Address">-->
-<!--                                        <label for="email">Email Address</label>-->
-                                        {{ form.password.label }}
-                                        {{ form.password }}
+                                        {{ form.password1.label }}
+                                        {{ form.password1 }}
                                     </div>
                                 </div>
 
@@ -134,8 +119,8 @@
 <!--                                            placeholder="Password">-->
 <!--                                        <label for="password">Password</label>-->
 
-                                            {{ form.password_confirm.label }}
-                                            {{ form.password_confirm }}
+                                            {{ form.password2.label }}
+                                            {{ form.password2 }}
                                     </div>
                                 </div>
 

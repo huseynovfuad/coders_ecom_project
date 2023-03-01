@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     # project apps
     "accounts",
     "products",
+    "users",
+    "persons",
 
     # third party apps
     "ckeditor",
@@ -46,6 +48,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTH_USER_MODEL = "users.MyUser"
 
 ROOT_URLCONF = 'core.urls'
 
