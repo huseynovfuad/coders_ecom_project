@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.conf import settings
 from services.generator import CodeGenerator
+from django.contrib.auth.forms import PasswordChangeForm
 
 User = get_user_model()
 
@@ -161,3 +162,67 @@ class ActivateForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 "class": "form-control",
             })
+
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class": "form-control"})
+
+
+
+class ResetPasswordForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("email", )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class": "form-control"})
+
+    def clean(self):
+        email = self.cleaned_data.get("email")
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email does not exist")
+        return self.cleaned_data
+
+
+
+class ResetPasswordCompleteForm(forms.ModelForm):
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = User
+        fields = ("password1", "password2")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class": "form-control"})
+
+
+    def clean(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+
+        if len(password1.strip()) < 6:
+            raise forms.ValidationError("Duzgun kod yaz")
+
+        if password1 != password2:
+            raise forms.ValidationError("Passwords dont match")
+
+        return self.cleaned_data
+
+
+    def save(self):
+        password1 = self.cleaned_data.get("password1")
+        self.instance.set_password(password1)
+        self.instance.save()
+        return self.instance

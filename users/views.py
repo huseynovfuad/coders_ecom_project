@@ -1,13 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model, authenticate, login, logout
-from .forms import LoginForm, RegisterForm, ActivateForm
+from .forms import (
+    LoginForm, RegisterForm, ActivateForm, CustomPasswordChangeForm,
+    ResetPasswordForm, ResetPasswordCompleteForm
+)
+from django.contrib.auth.decorators import login_required
+from .decorators import not_authorized_user
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.core.mail import send_mail
+from django.conf import settings
+from django.urls import reverse_lazy
 
 # Create your views here.
 
 User = get_user_model()
 
-
+@not_authorized_user
 def login_view(request):
+    next = request.GET.get("next", None)
     form = LoginForm()
 
     if request.method == "POST":
@@ -19,7 +30,8 @@ def login_view(request):
             password = form.cleaned_data.get("password")
             user = authenticate(email=email, password=password)
             login(request, user)
-
+            if next:
+                return redirect(next)
             return redirect('/')
 
     context = {
@@ -68,3 +80,71 @@ def account_activate_view(request, slug):
         "form": form
     }
     return render(request, "accounts/activate.html", context)
+
+@login_required(login_url='/users/login/')
+def password_change_view(request):
+    form = CustomPasswordChangeForm(user=request.user)
+
+    if request.method == "POST":
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('/')
+
+    context = {
+        "form": form
+    }
+    return render(request, "users/password_change.html", context)
+
+
+
+def reset_password_view(request):
+    form = ResetPasswordForm()
+
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST or None)
+
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+            user = User.objects.get(email=email)
+
+            link = request.build_absolute_uri(reverse_lazy("users:reset-complete", kwargs={"slug": user.slug}))
+            message = f"Please click the link below \n{link}"
+
+
+            # send mail
+            send_mail(
+                'Reset password',  # subject
+                message,  # message
+                settings.EMAIL_HOST_USER,  # from email
+                [email],  # to mail list
+                fail_silently=False,
+            )
+
+            return redirect("/users/login/")
+
+    context = {
+        "form": form
+    }
+    return render(request, "users/reset.html", context)
+
+
+
+def reset_password_complete_view(request, slug):
+    user = get_object_or_404(User, slug=slug)
+    form = ResetPasswordCompleteForm(instance=user)
+
+    if request.method == "POST":
+
+        form = ResetPasswordCompleteForm(instance=user, data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("/users/login/")
+
+    context = {
+        "form": form
+    }
+    return render(request, 'users/reset_complete.html', context)

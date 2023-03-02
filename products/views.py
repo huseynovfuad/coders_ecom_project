@@ -1,4 +1,4 @@
-
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Category, Product
 from django.db.models import Case, When, FloatField, F, Q, Count, Value, CharField
@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 
-
+@login_required(login_url="/users/login/")
 def index_view(request):
     filter_, filter_dict = Q(), {}
     products = Product.objects.annotate(
@@ -77,7 +77,7 @@ def index_view(request):
     return render(request, "products/index.html", context)
 
 
-
+@login_required(login_url="/users/login/")
 def product_create_view(request):
     context = {}
     return render(request, "products/create.html", context)
