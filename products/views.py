@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from .models import Category, Product
+from django.shortcuts import render, get_object_or_404
+from .models import Category, Product, Basket
 from django.db.models import Case, When, FloatField, F, Q, Count, Value, CharField
 from django.db.models.functions import Coalesce
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -81,3 +82,33 @@ def index_view(request):
 def product_create_view(request):
     context = {}
     return render(request, "products/create.html", context)
+
+
+
+def product_wish_view(request):
+    data = {}
+    product = get_object_or_404(Product, id=int(request.POST.get("id")))
+
+    if request.user in product.wishlist.all():
+        product.wishlist.remove(request.user)
+        data["success"] = False
+    else:
+        product.wishlist.add(request.user)
+        data["success"] = True
+    return JsonResponse(data)
+
+
+
+def product_basket_view(request):
+    data = {}
+    product = get_object_or_404(Product, id=int(request.POST.get("id")))
+    Basket.objects.get_or_create(
+        product=product, user=request.user
+    )
+    return JsonResponse(data)
+
+
+# def wishlist_view(request):
+#     products = Product.objects.filter(
+#         wishlist__in=[request.user]
+#     )

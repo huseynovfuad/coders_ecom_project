@@ -28,6 +28,7 @@
 
     <!-- Shop Section Start -->
     <section class="section-b-space shop-section">
+        {% csrf_token %}
         <div class="container-fluid-lg">
             <div class="row">
                 <div class="col-12">
@@ -218,8 +219,14 @@
                                         <ul class="product-option" style="text-align: center">
 
                                             <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
-                                                <a href="wishlist.html" class="notifi-wishlist">
-                                                    <i data-feather="heart"></i>
+                                                <a onclick="getWish('{{product.id}}')" class="notifi-wishlist">
+                                                    <i data-feather="heart" id="product-heart-{{product.id}}"
+                                                    {% if request.user in product.wishlist.all %}style="color: red;"{% else %}style="color: green;"{% endif %}></i>
+                                                </a>
+
+
+                                                <a onclick="getBasket('{{product.id}}')" class="notifi-wishlist" style="cursor: pointer;">
+                                                    Basket
                                                 </a>
                                             </li>
                                         </ul>
@@ -321,4 +328,65 @@
     </section>
     <!-- Shop Section End -->
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        const wish_url = "{% url 'products:wish' %}"
+        const basket_url = "{% url 'products:basket' %}"
+
+        function getWish(id){
+            var myHeaders = new Headers()
+            myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+            var formData = new FormData()
+
+            formData.append('id', id)
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(wish_url, requestOptions)
+                .then(function (response) {
+
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            if(data.success){
+                                $("#product-heart-"+id).css('color', 'red')
+                            }else{
+                                $("#product-heart-"+id).css('color', 'green')
+                            }
+                        })
+                    }
+                })
+        }
+
+        function getBasket(id){
+            var myHeaders = new Headers()
+            myHeaders.append('X-CSRFToken', document.querySelector('[name=csrfmiddlewaretoken]').value)
+            var formData = new FormData()
+
+            formData.append('id', id)
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formData,
+                redirect: 'follow',
+            };
+
+            response = fetch(basket_url, requestOptions)
+                .then(function (response) {
+
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            console.log(data)
+                        })
+                    }
+                })
+        }
+    </script>
 {% endblock %}

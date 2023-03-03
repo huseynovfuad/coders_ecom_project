@@ -8,9 +8,11 @@ from accounts.models import Company
 from ckeditor.fields import RichTextField
 from services.choices import PRODUCT_STATUS
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 
+User = get_user_model()
 
 class Category(DateMixin, SlugMixin, MPTTModel):
     name = models.CharField(max_length=300)
@@ -50,6 +52,7 @@ class Product(DateMixin, SlugMixin):
     discount = models.FloatField(blank=True, null=True)
     description = RichTextField()
     status = models.CharField(max_length=200, choices=PRODUCT_STATUS)
+    wishlist = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.name
@@ -80,3 +83,12 @@ class ProductImage(DateMixin):
         ordering = ("-created_at",)
         verbose_name = "Product Image"
         verbose_name_plural = "Product Images"
+
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.email} --> {self.product.name}"
