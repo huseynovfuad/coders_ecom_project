@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, ProductImage, Basket
+from .models import Category, Product, ProductImage, Basket, Order, OrderItem
 
 # Register your models here.
 
@@ -23,3 +23,11 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductImage)
 admin.site.register(Basket)
+
+
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ("product", "quantity")
+
+
+admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(Order)

@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product, Basket
-from django.db.models import Case, When, FloatField, F, Q, Count, Value, CharField
+from django.db.models import Case, When, FloatField, F, Q, Count, Value, CharField, Sum
 from django.db.models.functions import Coalesce
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from .forms import ProductForm
 
 # Create your views here.
 
@@ -112,3 +113,83 @@ def product_basket_view(request):
 #     products = Product.objects.filter(
 #         wishlist__in=[request.user]
 #     )
+
+
+from django.views import View
+from django.views.generic import ListView
+
+
+
+# class ProductCreateView(View):
+#
+#     def get(self, request, *args, **kwargs):
+#         form = ProductForm()
+#         context = {}
+#         return render(request, "products/create.html", context)
+#
+#
+#     def post(self, request, *args, **kwargs):
+#         form = ProductForm(request.POST or None)
+#         # do some process
+#         return redirect("/")
+
+
+class ProductListView(ListView):
+    # model = Product
+    queryset = Product.objects.order_by("-created_at")
+    template_name = "products/list.html"
+    context_object_name = "products"
+
+    def get_context_data(self, **kwargs):
+        queryset = self.get_queryset()
+        return {
+            "queryset": queryset,
+            "target": "coders"
+        }
+    def get_queryset(self):
+        return Product.objects.all()
+
+    # def get(self):
+
+
+
+from .models import Order, OrderItem
+
+def basket_list_view(request):
+    baskets = Basket.objects.annotate(
+        product_total_price=Case(
+            When(product__discount__isnull=True, then=F("product__price")),
+            default=F("product__price") - F("product__discount"),
+            output_field=FloatField()
+        )
+    ).filter(user=request.user)
+    basket_total_price = baskets.aggregate(
+        total_price_sum=Coalesce(Sum("product_total_price"), 0, output_field=FloatField())
+    )["total_price_sum"]
+
+    if request.method == "POST":
+        order = Order.objects.create(
+            user=request.user
+        )
+        for basket in baskets:
+            qty_search = f"quantity-{basket.id}"
+            if qty_search in request.POST:
+                quantity = request.POST.get(qty_search)
+                order_item = OrderItem.objects.create(
+                    product=basket.product, quantity=float(quantity)
+                )
+                order.items.add(order_item)
+
+        return redirect('/')
+    context = {
+        "baskets": baskets,
+        "basket_total_price": basket_total_price
+    }
+    return render(request, "baskets/list.html", context)
+
+
+
+def delete_item_from_basket(request):
+    id = request.POST.get("id")
+    Basket.objects.filter(id=int(id)).delete()
+    return JsonResponse({"success": True})
