@@ -40,7 +40,7 @@ class ProductListView(generics.ListCreateAPIView):
 
     def get(self, *args, **kwargs):
         queryset = self.get_queryset()
-        serializer = ProductCreateSerializer(queryset, many=True)
+        serializer = self.get_serializer_class()(queryset, many=True)
         return Response(serializer.data, status=200)
 
     def perform_create(self, serializer):
