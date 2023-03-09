@@ -71,6 +71,11 @@ class Product(DateMixin, SlugMixin):
         return super().save(*args, **kwargs)
 
 
+    # @property
+    # def total_price_(self):
+    #     return self.price - (self.discount or 0)
+
+
 
 class ProductImage(DateMixin):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

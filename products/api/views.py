@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from ..models import Product
 from .serializers import ProductSerializer, ProductCreateSerializer
 from rest_framework import generics
+from django.db.models import Case, When, FloatField, F
 
 # @api_view()
 # def hello_world(request):
@@ -30,6 +31,13 @@ class ProductListView(generics.ListCreateAPIView):
     # serializer_class = ProductSerializer
 
     def get_queryset(self):
+        # products = Product.objects.filter(company=self.request.user.company).annotate(
+        #     total_price=Case(
+        #         When(discount__isnull=True, then=F("price")),
+        #         default=F("price") - F("discount"),
+        #         output_field=FloatField()
+        #     )
+        # )
         products = Product.objects.filter(company=self.request.user.company)
         return products
 
@@ -57,3 +65,10 @@ class ProductListView(generics.ListCreateAPIView):
 #         serializer.is_valid(raise_exception=True)
 #         serializer.save(company=request.user.company)
 #         return Response(serializer.data, status=201)
+
+
+
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = "slug"

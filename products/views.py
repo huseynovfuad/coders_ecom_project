@@ -193,3 +193,9 @@ def delete_item_from_basket(request):
     id = request.POST.get("id")
     Basket.objects.filter(id=int(id)).delete()
     return JsonResponse({"success": True})
+
+
+
+
+def product_list_from_api_view(request):
+    return render(request, "products/api-list.html", {})

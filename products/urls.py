@@ -5,6 +5,7 @@ app_name = "products"
 
 urlpatterns = [
     path("", views.index_view, name="index"),
+    path("api-products/", views.product_list_from_api_view, name="api-products"),
     path("create/", views.product_create_view, name="create"),
     path("wish/", views.product_wish_view, name="wish"),
     path("basket/", views.product_basket_view, name="basket"),

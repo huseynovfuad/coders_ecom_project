@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        const products_url = "{% url 'products-api:products' %}"
+
+        function getProducts(){
+            var myHeaders = new Headers()
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+            };
+
+            response = fetch(products_url, requestOptions)
+                .then(function (response) {
+
+                    if (response.ok) {
+                        response.json().then((data) => {
+                            console.log(data)
+                        })
+                    }
+                })
+        }
+
+        getProducts()
+
+
+    </script>
+{% endblock %}
