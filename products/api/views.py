@@ -5,6 +5,11 @@ from ..models import Product
 from .serializers import ProductSerializer, ProductCreateSerializer
 from rest_framework import generics
 from django.db.models import Case, When, FloatField, F
+from .paginations import CustomPagination
+from django_filters.rest_framework.backends import DjangoFilterBackend
+from .filters import ProductFilter
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from .permissions import AccessPermission
 
 # @api_view()
 # def hello_world(request):
@@ -29,6 +34,10 @@ from django.db.models import Case, When, FloatField, F
 class ProductListView(generics.ListCreateAPIView):
     # queryset = Product.objects.all()
     # serializer_class = ProductSerializer
+    filter_backends = (DjangoFilterBackend, )
+    filterset_class = ProductFilter
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated, AccessPermission)
 
     def get_queryset(self):
         # products = Product.objects.filter(company=self.request.user.company).annotate(
@@ -46,10 +55,10 @@ class ProductListView(generics.ListCreateAPIView):
             return ProductSerializer
         return ProductCreateSerializer
 
-    def get(self, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer_class()(queryset, many=True)
-        return Response(serializer.data, status=200)
+    # def get(self, *args, **kwargs):
+    #     queryset = self.get_queryset()
+    #     serializer = self.get_serializer_class()(queryset, many=True)
+    #     return Response(serializer.data, status=200)
 
     def perform_create(self, serializer):
         return serializer.save(company=self.request.user.company)

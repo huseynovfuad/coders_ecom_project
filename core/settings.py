@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "mptt",
     "rest_framework",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +147,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_PORT = 465
 # EMAIL_USE_TLS = False
 # EMAIL_USE_SSL = True
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3,
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ]
+}
