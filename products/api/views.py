@@ -37,7 +37,7 @@ class ProductListView(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend, )
     filterset_class = ProductFilter
     pagination_class = CustomPagination
-    permission_classes = (IsAuthenticated, AccessPermission)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         # products = Product.objects.filter(company=self.request.user.company).annotate(
