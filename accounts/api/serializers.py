@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from services.generator import CodeGenerator
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 User = get_user_model()
@@ -69,14 +72,31 @@ class RegisterSerializer(serializers.ModelSerializer):
         full_name = validated_data.get("full_name", None)
         password = validated_data.get("password", None)
 
-        user = User.objects.create(email=email, full_name=full_name)
+        user = User.objects.create(
+            email=email, full_name=full_name, is_active=False,
+            activation_code=CodeGenerator.create_activation_link_code(size=6, model_=User)
+        )
         user.set_password(password)
         user.save()
+
+        # sending mail
+        message = f"Please write code below: \n{user.activation_code}"
+        send_mail(
+            'Activate email', # subject
+            message, # message
+            settings.EMAIL_HOST_USER, # from email
+            [user.email], # to mail list
+            fail_silently=False,
+        )
+
         return user
 
 
     def to_representation(self, instance):
         repr_ = super().to_representation(instance)
-        token = RefreshToken.for_user(instance)
-        repr_["token"] = {"refresh": str(token), "access": str(token.access_token)}
+        repr_["slug"] = instance.slug
         return repr_
+
+
+class ActivationSerializer(serializers.Serializer):
+    code = serializers.CharField()
